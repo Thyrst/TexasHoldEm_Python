@@ -2,10 +2,10 @@
 Demo client for Texas Hold 'Em for python
 
 ## Getting Started with the Python Demo Client
-If you're a seasoned python vet you can probably skip right over this introductory material. All you need to do is download the repository and start hacking! If you're a little less confident, maybe give it a quick a skim, make sure you've got any additional packages downloaded, and then you should be good to go! Finally, if you're a complete novice, fear not! This short guide should provide you with enough to get up and running with the client!
+If you're a seasoned python vet you can probably skip right over this introductory material. All you need to do is download the repository and start hacking! If you're a little less confident, maybe give it a quick a skim, make sure you've got any additional packages downloaded, and then you should be good to go! Finally, if you're a complete novice, fear not! This short guide should provide you with enough information to get up and running with the client!
 
 ### Setting up Python
-First, you need to install python on your machine. Head over to https://www.python.org/downloads/ and download the latest version of Python 3 for your OS (as of writing, its Python 3.6.1).
+First, you need to install python on your machine. Head over to https://www.python.org/downloads/ and download the latest version of Python 3 for your OS (as of writing, it's Python 3.6.1).
 
 Next we need the python package manager, pip. Check out https://packaging.python.org/tutorials/installing-packages/  for instructions on how install pip. If you downloaded the latest version of python 3 using the link from the previous paragraph, you should already be good to go.
 
