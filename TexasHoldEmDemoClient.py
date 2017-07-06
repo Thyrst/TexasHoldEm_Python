@@ -5,6 +5,7 @@ import time
 import threading
 from Table import Table
 from TexasHoldEm import calculate_move
+from tkinter import BOTH, END, LEFT
 
 TITLE_TEXT = 'Texas Hold \'EM Demo Client'
 
@@ -58,7 +59,7 @@ THINKING_TIME_LABEL_ROW, THINKING_TIME_LABEL_COLUMN = (CANCEL_STOP_GAME_BUTTON_R
 THINKING_TIME_LABEL_TEXT = 'Thinking time:'
 
 THINKING_TIME_ENTRY_ROW, THINKING_TIME_ENTRY_COLUMN = (THINKING_TIME_LABEL_ROW, THINKING_TIME_LABEL_COLUMN + 1)
-THINKING_TIME_DEFAULT = 1500
+THINKING_TIME_DEFAULT = 100
 
 TABLE_ROW, TABLE_COLUMN = (GAME_STYLE_LISTBOX_ROW, GAME_STYLE_LISTBOX_COLUMN + GAME_STYLE_LISTBOX_COLUMN_SPAN)
 TABLE_ROW_SPAN = 10
@@ -92,7 +93,7 @@ class TexasHoldEmDemoClient(tkinter.Tk):
         # the REST API. Feel free to play around with this portion of the code if you want to make the UI a bit
         # prettier, but if you are just interested in learning the API you can ignore this method completely!
         # If you are interested in fiddling with the GUI, we use the tkinter python package. Find out more at
-        # https://docs.python.org/3/library/tk.html
+        # https://docs.python.org/3/library/tk.tk.html
 
         # Call super class constructor as we inherit from the top level tkinter.TK class
         super().__init__()
@@ -148,7 +149,7 @@ class TexasHoldEmDemoClient(tkinter.Tk):
 
         self.game_styles_listbox = tkinter.Listbox(self,
                                                    width=GAME_STYLE_LISTBOX_TEXT_LEN,
-                                                   activestyle=GAME_STYLE_LISTBOX_ACTIVE_STYLE)
+                                                   activestyle=GAME_STYLE_LISTBOX_ACTIVE_STYLE,  exportselection=False)
 
         self.game_styles_listbox.grid(row=GAME_STYLE_LISTBOX_ROW,
                                       column=GAME_STYLE_LISTBOX_COLUMN,
@@ -217,7 +218,6 @@ class TexasHoldEmDemoClient(tkinter.Tk):
         if self.logged_in:
             self.bot_id = None
             self.bot_password = None
-
             self.bot_id_entry.config(state=ENABLED)
             self.bot_password_entry.config(state=ENABLED)
             self.specify_opponent_entry.config(state=DISABLED)
@@ -231,9 +231,11 @@ class TexasHoldEmDemoClient(tkinter.Tk):
             self.reset_game_styles_listbox()
 
             self.logged_in = False
+            self.bot_password_entry.delete(0, END)
 
         # This means we're logging in
         else:
+			
             self.bot_id = self.bot_id_entry.get()
             self.bot_password = self.bot_password_entry.get()
 
@@ -353,11 +355,11 @@ class TexasHoldEmDemoClient(tkinter.Tk):
         # http://help.aigaming.com/rest-api-manual#OfferGame for more details. We build a python dict to hold all of the
         # data that we need to send to the server. Then we build the URL we need to post to. Then we make the call.
         # Finally, we return the result of the call.
-
+        
         opponent_id = self.specify_opponent_entry.get()
         if len(opponent_id) == 0:
             opponent_id = None
-
+        
         req = {'BotId': self.bot_id,
                'BotPassword': self.bot_password,
                'MaximumWaitTime': 1000,
@@ -368,6 +370,7 @@ class TexasHoldEmDemoClient(tkinter.Tk):
         url = BASE_URL + OFFER_GAME_EXTENSION
 
         return TexasHoldEmDemoClient.make_api_call(url, req)
+        
 
     def wait_for_game(self):
         """Wait for game to start."""
@@ -459,9 +462,13 @@ class TexasHoldEmDemoClient(tkinter.Tk):
                 opponent_stack = current_opponent_stack
 
             self.update()
-
-            time.sleep(int(self.thinking_time_entry.get())/1000)
-
+            try:
+                if int(self.thinking_time_entry.get()) > 0:
+                    time.sleep(int(self.thinking_time_entry.get())/1000)
+                else:
+                    time.sleep(0)
+            except:
+                time.sleep(0)
         self.table.reset_for_new_game()
 
         self.in_game = False
@@ -521,5 +528,3 @@ class TexasHoldEmDemoClient(tkinter.Tk):
 if __name__ == '__main__':
     client = TexasHoldEmDemoClient()
     client.mainloop()
-
-
