@@ -181,7 +181,7 @@ class TexasHoldEmHelpers:
         is_four_of_a_kind = False
 
         if len(cards) >= 4:
-            combinations = list(itertools.combinations(cards, 5))
+            combinations = list(itertools.combinations(cards, 4))
 
             for combination in combinations:
                 combination = sorted(combination, key=TexasHoldEmHelpers.sort_by_rank)
